@@ -1,0 +1,39 @@
+html,
+head,
+body,
+div {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+
+#game {
+  margin-top: 20px;
+  margin-left: 20px;
+  color: #00e300;
+  font-size: 1.5rem;
+}
+
+#title {
+  position: absolute;
+  color: #00e300;
+  right: 20px;
+  bottom: 20px;
+}
+
+.choice {
+  color: white;
+  border-top: 1px solid #00e300;
+  border-bottom: 1px solid #00e300;
+  margin-top: 30%;
+  width: 100%;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.choice > span {
+  cursor: pointer;
+}
