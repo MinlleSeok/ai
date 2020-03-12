@@ -25,7 +25,8 @@ div {
   color: white;
   border-top: 1px solid #00e300;
   border-bottom: 1px solid #00e300;
-  margin-top: 30%;
+  position: absolute;
+  top: 35%;
   width: 100%;
   min-height: 30vh;
   display: flex;
