@@ -18,12 +18,12 @@ class User {
 
 let user = null;
 
-function init(text, options) {
+function init(text, options, game) {
     const ROOT = document.getElementById("game");
     ROOT.innerHTML = "";
     document.getElementById("user").childNodes[0].remove();
 
-    typeText(0, ROOT, text, 150, choice, options);
+    typeText(0, ROOT, text, 50, game, options);
 }
 
 function choice(options) {
@@ -43,8 +43,60 @@ function choice(options) {
     document.getElementById("user").appendChild(selections);
 }
 
+function lotto(options) {
+    const selections = document.createElement('div');
+    selections.className = "choice";
+
+    let numbers = [];
+    for (let i = 1; i < 46; i++) {
+        numbers.push(i);
+    }
+
+    let index = 45;
+    let count = 6;
+
+    getNumber(count, numbers, index, selections);
+
+}
+
+function getNumber(count, numbers, index, selections) {
+    if (count > 0) {
+        document.getElementById("user").appendChild(selections);
+        const SPAN = document.createElement('span');
+        const RANDOM = Math.round(Math.random() * index);
+        SPAN.textContent = `${numbers[RANDOM]}`;
+        numbers.splice(RANDOM, 1);
+        selections.appendChild(SPAN);
+        window.setTimeout(getNumber, 1000, --count, numbers, --index, selections);
+    } else {
+        const ROOT = document.getElementById("game");
+        ROOT.innerHTML = "";
+        const text = "한 주의 행복 회로를 잘 돌리길 바라n이만 안뇽~"
+        typeText(0, ROOT, text, 50, () => '', "");
+    }
+}
 
 function select(choose, answer) {
+
+    if (answer === "first") {
+        // init(text, options, lotto);
+        if (choose === "덧셈 테스트") {
+            sumGame(choose, answer);
+            return;
+        }
+
+        if (choose === "로또 추출잼") {
+            const text = "로또 날이 다가왔군,,n그래, 휴먼n로또 번호를 뽑아보자"
+            init(text, "", lotto);
+        }
+    } else {
+        sumGame(choose, answer);
+        return;
+    }
+
+}
+
+function sumGame(choose, answer) {
     const a = Math.round(Math.random() * 100);
     const b = Math.round(Math.random() * 100);
 
@@ -67,12 +119,12 @@ function select(choose, answer) {
         [a + b, a + b + luck2, a + b] :
         [a + b - luck2, a + b, a + b];
 
-    init(text, options);
+    init(text, options, choice);
 }
 
-function printPoint () {
+function printPoint() {
     const dom = document.getElementById("point");
-    if(user.getPoint() > 0) {
+    if (user.getPoint() > 0) {
         dom.innerHTML = `${user.getPoint()}연속, 가즈아!`;
     } else {
         dom.innerHTML = '';
@@ -89,8 +141,16 @@ function typeText(i, target, text, speed, callback, options) {
     }
 }
 
-const firstText = "안녕, 휴먼.n나는 앵공지능이야n방구가 마렵군";
-const firstOptions = ["방구 낀다", "방구 먹인다", "방구 먹인다"];
+const firstText = `□□□□□□□□□n
+□■■■■■■■□n
+□■□□□□□■□n
+□■□■□■□■□n
+□■□□□□□■□n
+□■□■■■□■□n
+□■□□□□□■□ 안녕, 휴먼.n
+□■■■■■■■□ 나는 앵공지능이야n
+□□□□□□□□□ 방구가 마렵군`;
+const firstOptions = ["로또 추출잼", "덧셈 테스트", "first"];
 
 user = new User();
-window.onload = init(firstText, firstOptions);
+window.onload = init(firstText, firstOptions, choice);
